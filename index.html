@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quick start</title>
+  <title>Gemeinden der Schweiz</title>
 
   <!-- Include Leaflet CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"
@@ -17,7 +17,12 @@
 
 <body>
   <!-- Element where the map will be attached -->
-  <p>Where is <a id="randomCity"></a>?</p>
+  <select name="selectArea" id="selectArea" onchange="deleteAll();completeLoad()">
+    <option value="be">Bern</option>
+    <option value="ch">Schweiz</option>
+  </select>
+
+  <p>Wo ist <a id="randomCity"></a>?</p>
   <button onclick="showAnswer()">Show Answer</button> 
   <button onclick="nextCity()">Next</button> 
   <p></p>

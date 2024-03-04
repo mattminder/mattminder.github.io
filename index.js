@@ -1,4 +1,3 @@
-
 var map;
 var polygonLayers;
 var randomCity;
@@ -20,6 +19,11 @@ function chooseRandomPolygon() {
     document.getElementById("randomCity").innerHTML=randomCity.name;
 }
 
+function getFileName() {
+    let selectElement = document.getElementById("selectArea");
+    return selectElement.value + ".geojson";
+}
+
 function drawAll() {
     // load the polygons tile layer
     polygonLayers = []
@@ -34,7 +38,7 @@ function drawAll() {
         );
     }
 
-    return $.getJSON("polygons_simple50.geojson",
+    return $.getJSON(getFileName(),
         function(hoodData) {
             L.geoJson( 
                 hoodData, 
@@ -50,8 +54,17 @@ function drawAll() {
     )
 }
 
-map = setUp()
-drawAll().then(chooseRandomPolygon)
+function completeLoad() {
+    drawAll().then(chooseRandomPolygon)
+}
+
+function deleteAll() {
+    polygonLayers.map(
+        function (e) {
+            map.removeLayer(e.layer)
+        }
+    )
+}
 
 function showAnswer() {
     randomCity.layer.setStyle({fillColor: '#FF0000', fillOpacity: 1, color: '#FF0000'});
@@ -61,3 +74,7 @@ function nextCity() {
     randomCity.layer.setStyle({fillColor: '#3273a8', fillOpacity: .5, color: '#3273a8'});
     chooseRandomPolygon()
 }
+
+map = setUp()
+completeLoad()
+
