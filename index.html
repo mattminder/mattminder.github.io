@@ -17,14 +17,16 @@
 
 <body>
   <!-- Element where the map will be attached -->
+  <p>What region do you want to play on?</p>
   <select name="selectArea" id="selectArea" onchange="deleteAll();completeLoad()">
     <option value="be">Bern</option>
     <option value="ch">Schweiz</option>
   </select>
 
-  <p>Wo ist <a id="randomCity"></a>?</p>
+  <p>Where is <a id="randomCity"></a>?</p>
   <button onclick="showAnswer()">Show Answer</button> 
   <button onclick="nextCity()">Next</button> 
+  <button onclick="toggleBackgroundMap()">Show/Hide Map</button> 
   <p></p>
   <div id="mapid"></div>
 

@@ -1,18 +1,36 @@
 var map;
 var polygonLayers;
 var randomCity;
+var backgroundMap;
+var backgroundMapIsShowing;
 
 function setUp() {
     // Create map and attach id to element with id "mapid"
-    var map = L.map('mapid').setView([46.6, 8.5], 8);
+    map = L.map('mapid').setView([46.6, 8.5], 8);
 
     // add openstreetmap-tiles in the background
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    addBackgroundMap()
+}
+
+function addBackgroundMap() {
+    backgroundMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    return map
 }
+
+function removeBackgroundMap() {
+    map.removeLayer(backgroundMap)
+}
+
+function toggleBackgroundMap() {
+    if (map.hasLayer(backgroundMap)) {
+        map.removeLayer(backgroundMap)
+    } else {
+        backgroundMap.addTo(map)
+    }
+}
+
 
 function chooseRandomPolygon() {
     randomCity = polygonLayers[Math.floor(Math.random() * polygonLayers.length)];
@@ -75,6 +93,6 @@ function nextCity() {
     chooseRandomPolygon()
 }
 
-map = setUp()
+setUp()
 completeLoad()
 
