@@ -39,7 +39,7 @@ function chooseRandomPolygon() {
 
 function getFileName() {
     let selectElement = document.getElementById("selectArea");
-    return selectElement.value + ".geojson";
+    return "polygons/polygons_" +selectElement.value + ".geojson";
 }
 
 function drawAll() {
