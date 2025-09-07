@@ -12,13 +12,23 @@ function getPoints() {
 }
 
 function setPoints(points) {
-    return localStorage.setItem("gemeindeguessr.points", points)
+    localStorage.setItem("gemeindeguessr.points", points);
 }
 
 function increasePoints(delta) {
     points = getPoints();
     setPoints(points + delta);
 }
+
+function getNumberOfGuesses() {
+    return Number(localStorage.getItem("gemeindeguessr.guesses"));
+}
+
+function increaseNumberOfGuesses() {
+    currentGuesses = getNumberOfGuesses();
+    localStorage.setItem("gemeindeguessr.guesses", currentGuesses + 1);
+}
+
 
 function getFileName() {
     let selectedArea = localStorage.getItem("gemeindeguessr.area");
@@ -75,22 +85,28 @@ function showPoints() {
     container.innerHTML = getPoints();
 }
 
+function showGuesses() {
+    container = document.getElementById("guesses");
+    container.innerHTML = getNumberOfGuesses();
+
+}
+
 function createClickHandler(feature, layer) {
 
     return function () {
+        increaseNumberOfGuesses();
         if (feature.properties.name === randomCity.name) {
             correctGuess(layer);
         } else {
             incorrectGuess(layer);
         }
         showPoints();
+        showGuesses();
 
         // Ask for next city after 1.5s
         setTimeout(nextCity, 1500);
     }
 }
-
-
 
 function drawAll() {
     // load the polygons tile layer
@@ -124,8 +140,13 @@ function drawAll() {
     )
 }
 
+function setMinimumTurnsRequired() {
+    localStorage.setItem("gemeindeguessr.minimumTurnsRequired", polygonLayers.length);
+}
+
 function completeLoad() {
-    drawAll().then(chooseRandomPolygon);
+    drawAll().then(chooseRandomPolygon).then(setMinimumTurnsRequired);
+    
 }
 
 function deleteAll() {

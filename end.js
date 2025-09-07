@@ -1,11 +1,19 @@
-function fill() {
-    let points = localStorage.getItem("gemeindeguessr.points");
-    let pointElement = document.getElementById("finalPoints");
-    pointElement.innerHTML = points;
+function fillFromStorage(id, storageKey, transformation) {
+    let result = localStorage.getItem("gemeindeguessr." + storageKey);
+    let element = document.getElementById(id);
 
-    let areaName = localStorage.getItem("gemeindeguessr.area");
-    let areaElement = document.getElementById("areaName");
-    areaElement.innerHTML = areaName.toUpperCase();
+    if (transformation) {
+        element.innerHTML = transformation(result);
+    } else {
+        element.innerHTML = result;
+    }
+}
+
+function fill() {
+    fillFromStorage("finalPoints", "points");
+    fillFromStorage("finalGuesses", "guesses");
+    fillFromStorage("areaName", "area", function (area) { return area.toUpperCase() });
+    fillFromStorage("bestGuesses", "minimumTurnsRequired");
 }
 
 function goBack() {
