@@ -4,21 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gemeinden der Schweiz</title>
-
-  <!-- Include Leaflet CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"
-        crossorigin integrity="sha384-o/2yZuJZWGJ4s/adjxVW71R+EO/LyCwdQfP5UWSgX/w87iiTXuvDZaejd3TsN7mf">
-  <style>
-    /* Set full width and height for the map */
-    html, body, #mapid { height: 90%; margin: 0; }
-  </style>
+  <title>Municipalities of Switzerland</title>
 </head>
 
 <body>
   <!-- Element where the map will be attached -->
   <p>What region do you want to play on?</p>
-  <select name="selectArea" id="selectArea" onchange="deleteAll();selectArea();completeLoad();">
+  <select name="selectArea" id="selectArea">
     <option value="ch">Schweiz</option>
     <option value="ag">Aargau</option>
     <option value="ai">Appenzell Innerrhoden</option>
@@ -48,17 +40,7 @@
     <option value="zh">Zürich</option>
   </select>
 
-  <p>Current Points: <a id="points"></a></p>
-  <p>Where is <a id="randomCity"></a>?</p>
-  <button onclick="toggleBackgroundMap()">Show/Hide Map</button> 
-  <p></p>
-  <div id="mapid"></div>
-
-  <!-- Include Leaflet and JQuery -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"
-        crossorigin integrity="sha384-okbbMvvx/qfQkmiQKfd5VifbKZ/W8p1qIsWvE1ROPUfHWsDcC8/BnHohF7vPg2T6">
-  </script>
-  <script src="jquery-3.7.1.min.js"></script> 
+  <button onclick="start()">Start</button> 
   <script src="index.js"></script>
 
 </body>
