@@ -45,10 +45,13 @@ function setUp() {
 }
 
 function addBackgroundMap() {
-    backgroundMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    var url = 'https://wms.geo.admin.ch/?';
+    var baselayer = new L.tileLayer.wms(url, {      
+        layers: ['ch.swisstopo.swissimage-product'],
+        opacity: [1],
+        maxZoom: 22
+    });
+    map.addLayer(baselayer);
 }
 
 function removeBackgroundMap() {
@@ -130,10 +133,10 @@ function drawAll() {
                 hoodData, 
                 {
                     onEachFeature: onEachGeoJSON,
-                    fillColor: '#3273a8',
-                    color: '#3273a8',
-                    weight: 1,
-                    fillOpacity: .5,
+                    fillColor: '#e2e2e2ff',
+                    color: '#e2e2e2ff',
+                    weight: 2,
+                    fillOpacity: 0,
                 }
             ).addTo(map);
         }
@@ -162,14 +165,19 @@ function showIncorrectAnswer() {
 }
 
 function showCorrectAnswer() {
-    randomCity.layer.setStyle({fillColor: '#a7bfd3ff', fillOpacity: 1, color: '#a7bfd3ff'});
+    randomCity.layer.setStyle({
+        fillColor: '#e2e2e2ff',
+        color: '#e2e2e2ff',
+        weight: 1,
+        fillOpacity: .5,
+    });
 }
 
 function nextCity() {
     if (polygonLayers.length === 0) {
         endGame();
     }
-    randomCity.layer.setStyle({fillColor: '#3273a8', fillOpacity: .5, color: '#3273a8'});
+    randomCity.layer.setStyle({fillColor: '#e2e2e2ff', fillOpacity: 0, color: '#e2e2e2ff'});
     chooseRandomPolygon()
 }
 
