@@ -98,7 +98,8 @@ function createClickHandler(feature, layer) {
 
     return function () {
         increaseNumberOfGuesses();
-        if (feature.properties.name === randomCity.name) {
+        wasCorrectGuess = feature.properties.name === randomCity.name
+        if (wasCorrectGuess) {
             correctGuess(layer);
         } else {
             incorrectGuess(layer);
@@ -107,7 +108,7 @@ function createClickHandler(feature, layer) {
         showGuesses();
 
         // Ask for next city after 1.5s
-        setTimeout(nextCity, 1500);
+        setTimeout(nextCityQueuer(wasCorrectGuess), 1500);
     }
 }
 
@@ -173,12 +174,17 @@ function showCorrectAnswer() {
     });
 }
 
-function nextCity() {
-    if (polygonLayers.length === 0) {
-        endGame();
+function nextCityQueuer(correctGuess) {
+
+    return function () {
+        if (polygonLayers.length === 0) {
+            endGame();
+        };
+        if (!correctGuess) {
+            randomCity.layer.setStyle({fillColor: '#e2e2e2ff', fillOpacity: 0, color: '#e2e2e2ff'});
+        };
+        chooseRandomPolygon();
     }
-    randomCity.layer.setStyle({fillColor: '#e2e2e2ff', fillOpacity: 0, color: '#e2e2e2ff'});
-    chooseRandomPolygon()
 }
 
 function endGame() {
