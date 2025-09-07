@@ -1,6 +1,7 @@
 var map;
 var polygonLayers;
 var randomCity;
+var randomIndex;
 var backgroundMap;
 var backgroundMapIsShowing;
 var points;
@@ -53,12 +54,14 @@ function toggleBackgroundMap() {
 }
 
 function chooseRandomPolygon() {
-    randomCity = polygonLayers[Math.floor(Math.random() * polygonLayers.length)];
+    randomIndex = Math.floor(Math.random() * polygonLayers.length);
+    randomCity = polygonLayers[randomIndex];
     document.getElementById("randomCity").innerHTML = randomCity.name;
 }
 
 function correctGuess() {
     showCorrectAnswer();
+    polygonLayers.splice(randomIndex, 1);
     increasePoints(3);
 }
 
@@ -142,12 +145,15 @@ function showCorrectAnswer() {
 }
 
 function nextCity() {
+    if (polygonLayers.length === 0) {
+        endGame();
+    }
     randomCity.layer.setStyle({fillColor: '#3273a8', fillOpacity: .5, color: '#3273a8'});
     chooseRandomPolygon()
 }
 
 function endGame() {
-    window.location.href = "/"
+    window.location.href = "/end.html"
 }
 
 setUp()
