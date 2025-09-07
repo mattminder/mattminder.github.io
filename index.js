@@ -5,10 +5,44 @@ var backgroundMap;
 var backgroundMapIsShowing;
 var points;
 
+// Functions interacting with localStorage
+function getPoints() {
+    return Number(localStorage.getItem("gemeindeguessr.points"));
+}
+
+function setPoints(points) {
+    return localStorage.setItem("gemeindeguessr.points", points)
+}
+
+function increasePoints(delta) {
+    points = getPoints();
+    setPoints(points + delta);
+}
+
+function initializePoints() {
+    if (typeof localStorage.getItem("gemeindeguessr.points") === "undefined") {
+        setPoints(0);
+    }
+}
+
+function areaIsSelected() {
+    return (typeof localStorage.getItem("gemeindeguessr.selectedArea") === "undefined")
+}
+
+function selectArea() {
+    let selectedArea = document.getElementById("selectArea");
+    localStorage.setItem("gemeindeguessr.selectedArea", selectedArea.value);
+}
+
+function getFileName() {
+    let selectedArea = localStorage.getItem("gemeindeguessr.selectedArea");
+    return "polygons/polygons_" + selectedArea + ".geojson";
+}
+
 function setUp() {
     // Create map and attach id to element with id "mapid"
     map = L.map('mapid').setView([46.6, 8.5], 8);
-    points = 0;
+    initializePoints();
     showPoints();
 
     // add openstreetmap-tiles in the background
@@ -39,24 +73,19 @@ function chooseRandomPolygon() {
     document.getElementById("randomCity").innerHTML = randomCity.name;
 }
 
-function getFileName() {
-    let selectElement = document.getElementById("selectArea");
-    return "polygons/polygons_" + selectElement.value + ".geojson";
-}
-
 function correctGuess() {
     showCorrectAnswer();
-    points = points + 3;
+    increasePoints(3);
 }
 
 function incorrectGuess() {
     showIncorrectAnswer();
-    points = points - 1;
+    increasePoints(-1);
 }
 
 function showPoints() {
     container = document.getElementById("points");
-    container.innerHTML = points;
+    container.innerHTML = getPoints();
 }
 
 function createClickHandler(feature, layer) {
@@ -73,6 +102,7 @@ function createClickHandler(feature, layer) {
         setTimeout(nextCity, 1500);
     }
 }
+
 
 
 function drawAll() {
@@ -108,7 +138,8 @@ function drawAll() {
 }
 
 function completeLoad() {
-    drawAll().then(chooseRandomPolygon)
+    selectArea();
+    drawAll().then(chooseRandomPolygon);
 }
 
 function deleteAll() {
