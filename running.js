@@ -108,7 +108,7 @@ function createClickHandler(feature, layer) {
         showGuesses();
 
         // Ask for next city after 1.5s
-        setTimeout(nextCityQueuer(wasCorrectGuess), 1500);
+        setTimeout(nextCityQueuer(wasCorrectGuess), 3500);
     }
 }
 
